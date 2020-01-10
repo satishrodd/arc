@@ -48,6 +48,8 @@ typedef enum {
 
 typedef struct node *node_ptr;
 
+typedef void (*callback_func)(node_ptr);
+
 struct node {
     u_int32_t   prefix;
     node_ptr    children[MAX_CHILDS];

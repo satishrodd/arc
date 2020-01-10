@@ -178,7 +178,7 @@ longest_prefix_match(node_ptr root,
         return(FAIL);
     }
     
-    for (int i=0;i<MAX_LEN;i++) {
+    for (int i=0;i<=MAX_LEN;i++) {
         index = (prefix & FIRST_BIT)? 1:0;
         printf("index %d\n", index);
 

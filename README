@@ -1,2 +1,27 @@
 This repository is the implementation of prefix tree.
+To run the program, after checkout, simply execute the
+"run.sh" file.
+
+The repository consists of following files,
+
+1) defs.h: 
+Header file, which contains all the function declarations, and
+Macro definitions, used in the prefix tree implementation.
+
+2) prefix_tree.c:
+The main implemetation of prefix tree is in this file.
+
+3) main.c:
+Beginning of the sample test program, which uses the prefix tree implemented.
+
+4) run.sh:
+Simple script to build and execute the sample test program.
+It also generates the binary file "bin"
+
+5) pyscript.py
+python script used for basic unit testing.
+
+6) testcases
+Description of all the TCs covered in pyscripts.py
+
 

@@ -56,6 +56,11 @@ node_insert(node_ptr    root,
         PRINT_ERROR("Tree root is NULL");
         return(FAIL);
     }
+
+    if ( !prefix || !mask  ) {
+        PRINT_ERROR("Invalid prefix/mask len");
+        return(FAIL);
+    }
     
     for (;mask;) {
         depth++;
@@ -75,6 +80,7 @@ node_insert(node_ptr    root,
              * depth from root, as len;
              */
             new->prefix.s_addr = (tmp_prefix & GET_MASK(depth));
+            //new->prefix.s_addr = tmp_prefix;
             new->len    = depth;
             new->parent = curr;
             curr->children[index] = new;
@@ -180,7 +186,6 @@ longest_prefix_match(node_ptr root,
     
     for (int i=0;i<=MAX_LEN;i++) {
         index = (prefix & FIRST_BIT)? 1:0;
-        printf("index %d\n", index);
 
         /*
          * If the current node is the leafe node,
@@ -298,7 +303,7 @@ get_ip(struct in_addr *ip)
  * Entry for the program.
  */
 void main() {
-    u_int32_t operation, len;
+    u_int32_t operation, len, num;
     struct in_addr *ip, *mask;
     ret_types ret;
 
@@ -309,25 +314,29 @@ void main() {
 
     root = tree_init();
     do {
-        printf("\n1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit");
+        printf("1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit\n");
         scanf("%d", &operation);
         switch(operation) {
           case EXIT:
             return;
           case ADD:
+            printf("enter the number of entries\n");
+            scanf("%d",&num);
             printf("enter prefix and subnet mask length\n");
-            get_ip(ip);
-            printf("subnet mask len: ");
-            scanf("%d", &len);
-            mask->s_addr = GET_MASK(len);
-            ret = node_insert(root, ip->s_addr, mask->s_addr);
-            if ( ret == FAIL ) {
-                printf("\nInsertion failed");
-                return;
+            while(num) {
+                get_ip(ip);
+                printf("subnet mask len: ");
+                scanf("%d", &len);
+                mask->s_addr = GET_MASK(len);
+                ret = node_insert(root, ip->s_addr, mask->s_addr);
+                if ( ret == FAIL ) {
+                    printf("\nInsertion failed");
+                }
+                num--;
             }
             break;
           case DEL:
-            printf("enter prefix and subnet mask length");
+            printf("enter prefix and subnet mask length\n");
             get_ip(ip);
             printf("subnet mask len: ");
             scanf("%d", &len);
@@ -335,11 +344,10 @@ void main() {
             ret = node_delete(root, ip->s_addr, mask->s_addr);
             if ( ret == FAIL ) {
                 printf("\nDeletion failed");
-                return;
             }
             break;
           case SUB_WALK:
-            printf("enter prefix and subnet mask length");
+            printf("enter prefix and subnet mask length\n");
             get_ip(ip);
             printf("subnet mask len: ");
             scanf("%d", &len);
@@ -348,16 +356,15 @@ void main() {
                                print_node);
             if ( ret == FAIL ) {
                 printf("\nSUBWALK failed");
-                return;
             }
             break;
           case MATCH:
-            printf("enter prefix");
+            printf("enter prefix\n");
             get_ip(ip);
             n = longest_prefix_match(root, ip->s_addr);
             if (!n) {
                 printf("\nLongest prefix match failed.");
-                return;
+                break;
             }
             print_node(n);
             break;

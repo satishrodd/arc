@@ -1,0 +1,50 @@
+For all the following TCs, to print the tree, subwalk will be used with
+prefix as 0.0.0.0/0
+
+TC1: Insert following prefixes
+    127.0.0.1/24
+    127.0.0.1/32
+    127.0.0.2/32
+    127.0.1.1/24
+    127.1.0.1/16
+    127.0.0.0/8
+    64.0.0.1/24
+    64.0.0.1/32
+    192.168.0.1/24
+    192.168.1.1/24
+    224.0.0.1/8
+    print the tree
+
+TC2: Delete the node 127.0.0.1/24 and verify if the entry removed from 
+the list by executing the subtree walk as 0.0.0.0/0.
+
+TC3: Find the longest match for 64.0.0.0
+It should print 64.0.0.0/24, because TC1 has inserted 64.0.0.1/24,
+
+TC4: Test subtree walk with prefix 127.0.0.1/8, it should result in 
+    127.0.0.1/32
+    127.0.0.2/32
+    127.0.1.0/24
+    127.1.0.0/16
+    127.0.0.0/8
+
+TC5: Test subtree walk with prefix 64.0.0.1/8, it should result in  
+    64.0.0.0/24
+    64.0.0.1/32
+    
+TC6: Test subtree walk with prefix 192.168.0.1/24, it should result in  
+    192.168.0.0/24
+
+TC7: Insert the node 127.0.0.1/24, which was deleted above in TC2, and
+print the tree.
+
+TC8: find longest match for 192.168.2.1 should yield no result.
+
+TC9: Delete 225.0.0.1/8 should result in failure.
+
+TC10: Try to insert prefix value 300:300:300:300/24. It should be
+rejected.
+
+TC11: Insert invalid prefix len 127.0.0.1/100. It should though error and
+reject.
+

@@ -22,7 +22,7 @@
 #define ZERO            0
 #define ONE             1
 #define MAX_CHILDS      2
-#define DEBUG_ENABLED   true
+#define DEBUG_ENABLED   false
 #define FIRST_BIT       0x80000000
 #define MAX_LEN         32
 /*

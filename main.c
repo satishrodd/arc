@@ -21,7 +21,8 @@
  * Return NULL upon failure, else pointer to memory.
  */
 node_ptr 
-node_alloc() {
+node_alloc() 
+{
     node_ptr n = NULL;
     // Allocate the memory.
     n = malloc(NODE_SIZE);
@@ -46,11 +47,12 @@ node_alloc() {
 ret_types
 node_insert(node_ptr    root,
             u_int32_t   prefix,
-            u_int32_t   mask) {
-    node_ptr curr   = root;
-    node_ptr new    = NULL;
-    u_int8_t index  = 0, depth = 0;
-    u_int32_t  tmp_prefix   = prefix;//, mask  = 0;
+            u_int32_t   mask) 
+{
+    node_ptr    curr   = root;
+    node_ptr    new    = NULL;
+    u_int8_t    index  = 0, depth = 0;
+    u_int32_t   tmp_prefix   = prefix;//, mask  = 0;
 
     if ( !root ) {
         PRINT_ERROR("Tree root is NULL");
@@ -61,7 +63,9 @@ node_insert(node_ptr    root,
         PRINT_ERROR("Invalid prefix/mask len");
         return(FAIL);
     }
-    
+    /*
+     * Walk through the mask length.
+     */ 
     for (;mask;) {
         depth++;
         index = (prefix & FIRST_BIT)? 1:0;
@@ -114,11 +118,12 @@ node_insert(node_ptr    root,
 ret_types
 node_delete(node_ptr    root,
             u_int32_t   prefix,
-            u_int32_t   mask) {
-    node_ptr curr   = root;
-    node_ptr parent = NULL;
-    u_int8_t index  = 0, depth = 0;
-    u_int32_t  tmp_prefix   = prefix;//, mask  = 0;
+            u_int32_t   mask) 
+{
+    u_int8_t   index  = 0, depth = 0;
+    node_ptr   curr   = root;
+    node_ptr   parent = NULL;
+    u_int32_t  tmp_prefix = prefix;
 
     if ( !root ) {
         PRINT_ERROR("Tree root is NULL");
@@ -176,7 +181,7 @@ longest_prefix_match(node_ptr root,
 {
     node_ptr   curr           = root;
     node_ptr   longest_prefix = NULL;
-    u_int32_t  tmp_prefix     = prefix;//, mask  = 0;
+    u_int32_t  tmp_prefix     = prefix;
     u_int8_t   index  = 0, depth = 0;
 
     if ( !root ) {
@@ -253,7 +258,7 @@ subtree_walk(node_ptr  root,
     }
     
     for (;mask;) {
-        index = (prefix & FIRST_BIT)? 1:0;
+        index = (prefix & FIRST_BIT)? ONE:ZERO;
         /*
          * If the child does not exist, but len is
          * not exausted, we need to create the node.
@@ -310,7 +315,6 @@ void main() {
     node_ptr root = NULL;
     node_ptr n= NULL;
 
-    root = tree_init();
     do {
         printf("\n1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit\n");
         scanf("%d", &operation);
@@ -318,6 +322,9 @@ void main() {
           case EXIT:
             return;
           case ADD:
+            if ( !root ) {
+                root = tree_init();
+            }
             printf("enter the number of entries\n");
             scanf("%d",&num);
             while(num) {

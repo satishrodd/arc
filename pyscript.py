@@ -152,7 +152,6 @@ def tc11():
     send_to_process(user_input)
     return
 
-
 def run_tests():
     tc1()
     tc2()
@@ -170,12 +169,8 @@ def run_tests():
 popen = subprocess.Popen("./bin",shell=False,bufsize=1024,
                          universal_newlines=True,
                          stdin=subprocess.PIPE)#, 
-                         #stdout=subprocess.PIPE)
-#flags = fcntl(popen.stdout, F_GETFL)
-#fcntl(popen.stdout, F_SETFL, flags | O_NONBLOCK)
 
 run_tests()
-#print popen.stdout.read()
 #close the process.
 a = ""
 a = input_str(a, "0")

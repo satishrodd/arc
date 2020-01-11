@@ -79,23 +79,35 @@ struct node {
     u_int8_t        len;                    // ip subnet mask length
 };
 
-/*
- * declaring a global variable for node size
- * because this will be needed for every node
- * creation, and we can optimize it by calling it once
- * and storing in a global variable.
- */
-int NODE_SIZE = sizeof(struct node);
+
 
 /*
- * wrapper function to convert prefix host to network
- * byte order and calling inet_ntoa
+ * Function declarations
  */
+
 char *
-print_prefix(u_int32_t prefix) {
-    struct in_addr a;
-    a.s_addr = (in_addr_t)htonl(prefix);
-    return(inet_ntoa(a));
-}
+print_prefix(u_int32_t prefix);
+
+ret_types
+node_insert(node_ptr    root,
+            u_int32_t   prefix,
+            u_int32_t   mask); 
+
+ret_types
+node_delete(node_ptr    root,
+            u_int32_t   prefix,
+            u_int32_t   mask); 
+
+ret_types
+subtree_walk(node_ptr  root,
+             u_int32_t prefix,
+             u_int32_t mask,
+             callback_func fn); 
+node_ptr
+longest_prefix_match(node_ptr root,
+                     u_int32_t prefix);
+
+node_ptr
+tree_init(); 
 
 #endif /* DEFS_H */

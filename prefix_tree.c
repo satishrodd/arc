@@ -23,10 +23,12 @@ int NODE_SIZE = sizeof(struct node);
 
 /*
  * wrapper function to convert prefix host to network
- * byte order and calling inet_ntoa
+ * byte order and calling inet_ntoa, which will return the char * 
+ * of string of prefix
  */
 char *
-print_prefix(u_int32_t prefix) {
+prefix_str(u_int32_t prefix) 
+{
     struct in_addr a;
     a.s_addr = (in_addr_t)htonl(prefix);
     return(inet_ntoa(a));
@@ -86,7 +88,7 @@ node_insert(node_ptr    root,
      */ 
     for (;mask;) {
         depth++;
-        index = (prefix & FIRST_BIT)? 1:0;
+        index = (prefix & FIRST_BIT)? ONE : ZERO;
         /*
          * If the child does not exist, but len is
          * not exausted, we need to create the node.
@@ -119,7 +121,7 @@ node_insert(node_ptr    root,
      * as leaf.
      */
     PRINT_DEBUG("Inserted prefix:%s\n", 
-                print_prefix(curr->prefix.s_addr));
+                prefix_str(curr->prefix.s_addr));
     curr->leaf = true;
     return(PASS);
 }
@@ -149,7 +151,7 @@ node_delete(node_ptr    root,
     }
     
     for (;mask;) {
-        index = (prefix & FIRST_BIT)? 1:0;
+        index = (prefix & FIRST_BIT)? ONE : ZERO;
         /*
          * If the child does not exist, but len is
          * not exausted, we need to create the node.
@@ -185,7 +187,7 @@ node_delete(node_ptr    root,
            parent = parent->parent;
     }
     PRINT_DEBUG("deleted prefix:%s\n", 
-                print_prefix(tmp_prefix));
+                prefix_str(tmp_prefix));
     return(PASS);
 }
 
@@ -208,7 +210,7 @@ longest_prefix_match(node_ptr root,
     }
     
     for (int i=0;i<=MAX_LEN;i++) {
-        index = (prefix & FIRST_BIT)? 1:0;
+        index = (prefix & FIRST_BIT)? ONE : ZERO;
 
         /*
          * If the current node is the leafe node,
@@ -237,7 +239,8 @@ longest_prefix_match(node_ptr root,
  */
 ret_types
 tree_walk (node_ptr root,
-           callback_func fn) {
+           callback_func fn) 
+{
     if ( !root ) {
         return (PASS);
     }

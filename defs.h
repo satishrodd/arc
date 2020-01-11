@@ -86,28 +86,28 @@ struct node {
  */
 
 char *
-print_prefix(u_int32_t prefix);
+prefix_str(u_int32_t prefix);
 
 ret_types
 node_insert(node_ptr    root,
             u_int32_t   prefix,
-            u_int32_t   mask); 
+            u_int32_t   mask);
 
 ret_types
 node_delete(node_ptr    root,
             u_int32_t   prefix,
-            u_int32_t   mask); 
+            u_int32_t   mask);
 
 ret_types
 subtree_walk(node_ptr  root,
              u_int32_t prefix,
              u_int32_t mask,
-             callback_func fn); 
+             callback_func fn);
+
 node_ptr
 longest_prefix_match(node_ptr root,
                      u_int32_t prefix);
 
-node_ptr
-tree_init(); 
+node_ptr tree_init();
 
 #endif /* DEFS_H */

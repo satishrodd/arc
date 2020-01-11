@@ -29,8 +29,8 @@ get_ip(struct in_addr *ip)
  */
 void 
 print_node(node_ptr n) {
-    printf("%s/%d\n",
-           print_prefix(n->prefix.s_addr),
+    printf("> %s/%d\n",
+           prefix_str(n->prefix.s_addr),
            n->len);
 }
 

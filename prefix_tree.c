@@ -176,6 +176,11 @@ node_delete(node_ptr    root,
     while (!curr->leaf &&
            !curr->children[ZERO] &&
            !curr->children[ONE]) {
+           if ( curr == root ) {
+               PRINT_DEBUG("trying to delete the root, return, without"
+                           "delete\n");
+               return(PASS);
+           }
            PRINT_DEBUG("Freeing node %p\n",curr); 
            free(curr);
            curr = parent;

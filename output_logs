@@ -1,0 +1,237 @@
+TC1: Insert following prefixes
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+1
+enter the number of entries
+11
+ip:127.0.0.1
+subnet mask len: 24
+ip:127.0.0.1
+subnet mask len: 32
+ip:127.0.0.2
+subnet mask len: 32
+ip:127.0.1.1
+subnet mask len: 24
+ip:127.1.0.1
+subnet mask len: 16
+ip:127.0.0.0
+subnet mask len: 8
+ip:64.0.0.1
+subnet mask len: 24
+ip:64.0.0.1
+subnet mask len: 32
+ip:192.168.0.1
+subnet mask len: 24
+ip:192.168.1.1
+subnet mask len: 24
+ip:224.0.0.1
+subnet mask len: 8
+
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+4
+ip:0.0.0.0
+subnet mask len: 0
+
+> 64.0.0.0/24
+> 64.0.0.1/32
+> 127.0.0.0/8
+> 127.0.0.0/24
+> 127.0.0.1/32
+> 127.0.0.2/32
+> 127.0.1.0/24
+> 127.1.0.0/16
+> 192.168.0.0/24
+> 192.168.1.0/24
+> 224.0.0.0/8
+
+
+-------------------------------------------
+TC2: Delete the node 127.0.0.1/24 and verify if the entry removed from 
+the list by executing the subtree walk as 0.0.0.0/0.
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+2
+ip:127.0.0.1
+subnet mask len: 24
+
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+4
+ip:0.0.0.0
+subnet mask len: 0
+
+> 64.0.0.0/24
+> 64.0.0.1/32
+> 127.0.0.0/8
+> 127.0.0.1/32
+> 127.0.0.2/32
+> 127.0.1.0/24
+> 127.1.0.0/16
+> 192.168.0.0/24
+> 192.168.1.0/24
+> 224.0.0.0/8
+
+-------------------------------------------
+TC3: Find the longest match for 64.0.0.0
+It should print 64.0.0.0/24, because TC1 has inserted 64.0.0.1/24,
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+3
+ip:64.0.0.0
+
+Longest Prefix found is: > 64.0.0.0/24
+
+-------------------------------------------
+TC4: Test subtree walk with prefix 127.0.0.1/8.
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+4
+ip:127.0.0.1
+subnet mask len: 8
+
+> 127.0.0.0/8
+> 127.0.0.1/32
+> 127.0.0.2/32
+> 127.0.1.0/24
+> 127.1.0.0/16
+
+-------------------------------------------
+TC5: Test subtree walk with prefix 64.0.0.1/8. 
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+4
+ip:64.0.0.1
+subnet mask len: 8
+
+> 64.0.0.0/24
+> 64.0.0.1/32
+
+-------------------------------------------
+TC6: Test subtree walk with prefix 192.168.0.1/24, 
+it should result in 192.168.0.0/24
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+4       
+ip:192.168.0.1
+subnet mask len: 24
+
+> 192.168.0.0/24
+
+-------------------------------------------
+TC7: Insert the node 127.0.0.1/24, 
+which was deleted above in TC2, and
+print the tree.
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+1
+enter the number of entries
+1
+ip:127.0.0.1
+subnet mask len: 24
+
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+4
+ip:0.0.0.0
+subnet mask len: 0
+
+> 64.0.0.0/24
+> 64.0.0.1/32
+> 127.0.0.0/8
+> 127.0.0.0/24
+> 127.0.0.1/32
+> 127.0.0.2/32
+> 127.0.1.0/24
+> 127.1.0.0/16
+> 192.168.0.0/24
+> 192.168.1.0/24
+> 224.0.0.0/8
+
+-------------------------------------------
+TC8: find longest match for 192.168.2.1 should yield no result.
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+3
+ip:192.168.2.1
+
+Longest prefix not found
+
+-------------------------------------------
+TC9: Delete 225.0.0.1/8 should result in failure.
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+2
+ip:225.0.0.1  
+subnet mask len: 8
+
+[node_delete:156] ERROR:Prefix not found
+
+-------------------------------------------
+TC10: Try to insert prefix value 300:300:300:300/24. It should be
+rejected.
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+1
+enter the number of entries
+1
+ip:300:300:300:300
+Invalid IP entered
+ip:300:300:300:300
+Invalid IP entered
+ip:127.0.0.1
+subnet mask len: 24
+
+-------------------------------------------
+TC11: Insert invalid prefix len 127.0.0.1/100. It should though error and
+reject.
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+1       
+enter the number of entries
+1
+ip:127.0.0.1
+subnet mask len: 100
+invalid subnet mask len 
+ip:127.0.0.1
+subnet mask len: 24
+
+-------------------------------------------
+TC12: Delete the last node in the tree. Tree root should be freed since
+there is no more prefixes
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+2
+ip:127.0.0.0
+subnet mask len: 24
+
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+4
+ip:0.0.0.0
+subnet mask len: 0
+
+
+[subtree_walk:265] ERROR:Tree root is NULL
+[main:121] ERROR:SUBWALK failed
+
+-------------------------------------------
+TC13: Try random valid/invalid IP addresses and mask len.
+-------------------------------------------
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+1
+enter the number of entries
+1
+ip:sdfk
+Invalid IP entered
+ip:234
+Invalid IP entered
+ip:3543425
+Invalid IP entered
+ip:127.098.890.8
+Invalid IP entered
+ip:001.001.001.001
+subnet mask len: 23
+
+1.Add 2.Delete 3.longest_match 4.subtree walk 0.exit
+4
+ip:0.0.0.0
+subnet mask len: 0
+
+> 1.1.0.0/23

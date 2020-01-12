@@ -109,5 +109,7 @@ longest_prefix_match(node_ptr root,
                      u_int32_t prefix);
 
 node_ptr tree_init();
+ret_types
+is_valid_ip(char *ip);
 
 #endif /* DEFS_H */

@@ -79,10 +79,6 @@ node_insert(node_ptr    root,
         return(FAIL);
     }
 
-    if ( !prefix || !mask  ) {
-        PRINT_ERROR("Invalid prefix/mask len");
-        return(FAIL);
-    }
     /*
      * Walk through the mask length.
      */ 

@@ -48,3 +48,7 @@ rejected.
 TC11: Insert invalid prefix len 127.0.0.1/100. It should though error and
 reject.
 
+TC12: Delete the last node in the tree. Tree root should be freed since
+there is no more prefixes
+
+TC13: Try random valid/invalid IP addresses and mask len.

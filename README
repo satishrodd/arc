@@ -24,4 +24,17 @@ python script used for basic unit testing.
 6) testcases
 Description of all the TCs covered in pyscripts.py
 
+Scope for improvements:
+----------------------
+1) Path compression : Current implemetation does not optimize the prefix
+creation. For ex: 127.0.0.1/32, if this is the first prefix for the tree,
+it will create 32 nodes. This can be optimized, and require more design
+and code effort.
+
+2) Thread safe: Current functionality is not thread safe, i.e. if one
+thread calls for node delete, and another thread calls for sub-tree walk, 
+there is a chance that, the program may crash, because, the node might
+have been deleted by thread 1 but might have been in use by thread 2.
+The implementation can be made thread safe by introducing the locking
+machanism per.
 

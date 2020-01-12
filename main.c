@@ -11,17 +11,21 @@
  *---------------------------------------------------------------------------
  */
 #include"defs.h"
+#include<string.h>
 #include <netinet/in.h>
 
-void 
+ret_types 
 get_ip(struct in_addr *ip)
 {
     char ipaddr[15];
     printf("ip:");
     scanf("%s", ipaddr);
+    if (!is_valid_ip(ipaddr) ) {
+        return FAIL;
+    }
     inet_aton(ipaddr, ip);
     ip->s_addr = htonl(ip->s_addr);;
-    return;
+    return PASS;
 }
 /*
  * The function which is to print the node information.
@@ -59,9 +63,16 @@ void main()
             printf("enter the number of entries\n");
             scanf("%d",&num);
             while(num) {
-                get_ip(&ip);
+                if(!get_ip(&ip)) {
+                    printf("Invalid IP entered\n");
+                    continue;
+                }
                 printf("subnet mask len: ");
                 scanf("%d", &len);
+                if ( len>MAX_LEN ) {
+                    printf("invalid subnet mask len \n");
+                    continue;
+                }
                 mask.s_addr = GET_MASK(len);
                 ret = node_insert(root, ip.s_addr, mask.s_addr);
                 if ( ret == FAIL ) {
@@ -71,19 +82,37 @@ void main()
             }
             break;
           case DEL:
-            get_ip(&ip);
+            if(!get_ip(&ip)) {
+                printf("Invalid IP entered\n");
+                continue;
+            }
             printf("subnet mask len: ");
             scanf("%d", &len);
+            if ( len>MAX_LEN ) {
+                printf("invalid subnet mask len \n");
+                continue;
+            }
             mask.s_addr = GET_MASK(len);
             ret = node_delete(root, ip.s_addr, mask.s_addr);
             if ( ret == FAIL ) {
                 PRINT_ERROR("Deletion failed\n");
             }
+            if (root->children[ZERO] && !root->children[ONE]) {
+                free(root);
+                root = NULL;
+            }
             break;
           case SUB_WALK:
-            get_ip(&ip);
+            if(!get_ip(&ip)) {
+                printf("Invalid IP entered\n");
+                continue;
+            }
             printf("subnet mask len: ");
             scanf("%d", &len);
+            if ( len>MAX_LEN ) {
+                printf("invalid subnet mask len \n");
+                continue;
+            }
             printf("\n");
             mask.s_addr = GET_MASK(len);
             ret = subtree_walk(root, ip.s_addr, mask.s_addr,
@@ -93,10 +122,13 @@ void main()
             }
             break;
           case MATCH:
-            get_ip(&ip);
+            if(!get_ip(&ip)) {
+                printf("Invalid IP entered\n");
+                continue;
+            }
             n = longest_prefix_match(root, ip.s_addr);
             if (!n) {
-                PRINT_ERROR("Longest prefix match failed.\n");
+                printf("Longest prefix not found.\n");
                 break;
             }
             printf("\nLongest Prefix found is: ");
@@ -108,3 +140,50 @@ void main()
         }
     } while(operation);
 }
+
+/*
+ * Basic validation of the IP address entered.
+ */
+ret_types
+is_valid_ip(char *ip) {
+    char *ch;
+    char set[12];
+    int i=0, len=0, dc=0;
+    ch = ip;
+
+    len = strlen(ip);
+
+    if(len>15 || len <7) {
+        return FAIL;
+    }
+
+    while(1) {
+        if(*ch=='.' || *ch=='\0') {
+            if ( *ch=='.'  ) {
+                dc++;
+                if(dc>3)return FAIL;
+            }
+            if ( i == 0  ) {
+                return FAIL;
+            }
+            set[i]='\0';
+            if ((u_int32_t)atoi(set)>255) {
+                return FAIL;
+            }
+            if (*ch=='\0') {
+                return PASS;
+            }
+            i=0;
+            ch++;
+        }
+
+        if ( *ch <'0' || *ch >'9' ) {
+            return FAIL;
+        }
+        set[i++] = *ch;
+        ch++;
+    }
+    return PASS;
+}
+
+

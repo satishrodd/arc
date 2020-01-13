@@ -43,7 +43,7 @@ print_node(node_ptr n) {
  */
 void main() 
 {
-    u_int32_t operation, len, num;
+    u_int32_t operation=0, len=0, num=0;
     struct in_addr ip, mask;
     ret_types ret;
 
@@ -60,8 +60,12 @@ void main()
             if ( !root ) {
                 root = tree_init();
             }
-            printf("enter the number of entries\n");
+            printf("enter the number of entries(max 100)\n");
             scanf("%d",&num);
+            if ( num >100 ) {
+                printf("Invalid entry\n");
+                return;
+            }
             while(num) {
                 if(!get_ip(&ip)) {
                     printf("Invalid IP entered\n");

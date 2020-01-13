@@ -101,7 +101,7 @@ void main()
             if ( ret == FAIL ) {
                 PRINT_ERROR("Deletion failed\n");
             }
-            if (root->children[ZERO] && !root->children[ONE]) {
+            if (!root->children[ZERO] && !root->children[ONE]) {
                 free(root);
                 root = NULL;
             }

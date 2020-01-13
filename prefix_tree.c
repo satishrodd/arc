@@ -161,6 +161,10 @@ node_delete(node_ptr    root,
         SHIFT_LEFT(prefix);
         SHIFT_LEFT(mask);
     }
+    if ( !curr->leaf ) {
+        PRINT_ERROR("Prefix not found");
+        return(PASS);
+    }
     /*
      * Clear leaf flag for node.
      * Note: it can still be an intermediate node, for 
